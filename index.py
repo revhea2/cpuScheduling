@@ -4,6 +4,7 @@ from schedulingAlgorithms.RoundRobin import RoundRobin
 from schedulingAlgorithms.ShortestJobFirst import ShortestJobFirst
 from schedulingAlgorithms.PriorityQueue import PriorityQueue
 from schedulingAlgorithms.MultilevelQueue import MultilevelQueue
+from schedulingAlgorithms.MultilevelFB import MultilevelFB
 
 import random
 from flask import Flask, render_template
@@ -136,9 +137,17 @@ if __name__ == '__main__':
             name, arrival_time, burst_time = line.split('\t')
             processes.append(Process(name, int(arrival_time), int(burst_time)))
 
-    table, gantt_chart = round_robin(processes)
+    # table, gantt_chart = round_robin(processes)
 
 
-    table, gantt_chart = multi_level_queue()
+    # table, gantt_chart = multi_level_queue()
+
+    fb = MultilevelFB()
+    first, second, third, gantt_chart, table = fb.perform_multilevel_fb(processes)
+    is_multilevel=False
+    print(f"First Level: {first}")
+    print(f"Second Level: {second}")
+    print(f"Third Level: {third}")
+    print(f"Gantt: {gantt_chart}")
 
     app.run(debug=True)

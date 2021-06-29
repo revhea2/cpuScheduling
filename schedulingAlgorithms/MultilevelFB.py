@@ -19,7 +19,7 @@ class MultilevelFB:
 		return processes
 
 
-	def perform_multilevel_fb(self, processes_1, processes_2, processes_3):
+	def perform_multilevel_fb(self, processes):
 		first_level = []
 		second_level = []
 		third_level = []
@@ -32,7 +32,7 @@ class MultilevelFB:
 		second_quantum = 10
 		# Tracker for the total time taken
 		time = 0
-		self.processes += processes_1 + processes_2 + processes_3
+		self.processes += processes
 		self.processes = self.sort(self.processes)
 		process_list = []
 
