@@ -75,6 +75,9 @@ class PriorityQueue:
             current_process.current_burst_time -= 1
 
         self.gantt_chart[-1].interval = time - self.gantt_chart[-1].start_time
+        self.gantt_chart.append(Process("", 0, 0, start_time= self.gantt_chart[-1].interval +self.gantt_chart[-1].start_time))
+
+
         self.table = Table(process_list)
 
     def add_waiting_queue_time(self, queue):
@@ -149,5 +152,7 @@ class PriorityQueue:
             current_process.current_burst_time -= 1
 
         self.gantt_chart[-1].interval = time - self.gantt_chart[-1].start_time
+        self.gantt_chart.append(Process("", 0, 0, start_time= self.gantt_chart[-1].interval +self.gantt_chart[-1].start_time))
+
 
         self.table = PreemptiveTable(process_list)

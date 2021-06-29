@@ -1,5 +1,5 @@
 from model.Table import Table
-
+from model.Process import Process
 
 class FirstComeFirstServe:
 
@@ -93,6 +93,7 @@ class FirstComeFirstServe:
 
         # for illustration of gantt chart
         self.gantt_chart[-1].interval = time - self.gantt_chart[-1].start_time
+        self.gantt_chart.append(Process("", 0, 0, start_time= self.gantt_chart[-1].interval +self.gantt_chart[-1].start_time))
 
         # for the tabulation of the FCFS algorithm
         self.table = Table(process_list)

@@ -1,4 +1,5 @@
 from model.PreemptiveTable import PreemptiveTable
+from model.Process import Process
 
 
 class RoundRobin:
@@ -14,7 +15,6 @@ class RoundRobin:
                 return i
         return -1
 
-
     def add_waiting_queue_time(self, queue):
         for i in range(len(queue)):
             if queue[i].start_time is not None:
@@ -25,7 +25,6 @@ class RoundRobin:
         self.processes = processes
         time = 0
         queue = []
-
 
         slice_count = quantum_slice
         current_process = None
@@ -55,10 +54,16 @@ class RoundRobin:
                 process_list.append(current_process)
 
                 if len(queue) > 0:
+                    self.gantt_chart[-1].interval = time - self.gantt_chart[-1].start_time
                     current_process = queue.pop(0)
+
                     if current_process.start_time is None:
                         current_process.start_time = time
-                        self.gantt_chart.append(current_process)
+                    gantt_process = Process(current_process.name, current_process.arrival_time,
+                                            current_process.burst_time)
+                    gantt_process.start_time = time
+
+                    self.gantt_chart.append(gantt_process)
 
                     slice_count = quantum_slice
                 else:
@@ -67,14 +72,28 @@ class RoundRobin:
             else:
                 if len(queue) > 0:
                     if slice_count == 0:
-                        # swap if the remaining time in the queue is lesser
+
+                        self.gantt_chart[-1].interval = time - self.gantt_chart[-1].start_time
+
                         temp = queue.pop(0)
                         queue.append(current_process)
                         current_process = temp
                         if current_process.start_time is None:
                             current_process.start_time = time
-                        self.gantt_chart.append(current_process)
+
+                        gantt_process = Process(current_process.name, current_process.arrival_time,
+                                                current_process.burst_time)
+                        gantt_process.start_time = time
+                        self.gantt_chart.append(gantt_process)
                         slice_count = quantum_slice
+                else:
+                    if slice_count == 0:
+                        self.gantt_chart[-1].interval = time - self.gantt_chart[-1].start_time
+
+                        gantt_process = Process(current_process.name, current_process.arrival_time,
+                                                current_process.burst_time)
+                        gantt_process.start_time = time
+                        self.gantt_chart.append(gantt_process)
 
             if current_process is None:
                 break
@@ -84,6 +103,7 @@ class RoundRobin:
             current_process.current_burst_time -= 1
             slice_count -= 1
 
+        self.gantt_chart[-1].interval = time - self.gantt_chart[-1].start_time
+        self.gantt_chart.append(Process("", 0, 0, start_time= self.gantt_chart[-1].interval +self.gantt_chart[-1].start_time))
+
         self.table = PreemptiveTable(process_list)
-
-

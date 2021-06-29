@@ -80,29 +80,30 @@ def round_robin(_processes):
     rr.perform_round_robin(_processes, 8)
     print(rr.table)
     for process in rr.gantt_chart:
-        print(process.name)
-    return rr.table
+        print(process.name, process.start_time, process.interval)
+    gantt_chart = rr.gantt_chart
+    return [rr.table, gantt_chart]
 
 
 if __name__ == '__main__':
     processes = []
     gantt_chart = []
     #
-    # with open('inputs/fcfs.txt') as f:
-    #     Lines = f.readlines()
-    #     for line in Lines:
-    #         name, arrival_time, burst_time = line.split('\t')
-    #         processes.append(Process(name, int(arrival_time), int(burst_time)))
-
-    # table, gantt_chart = sjf_p(processes)
-
-    with open('inputs/priority.txt') as f:
+    with open('inputs/fcfs.txt') as f:
         Lines = f.readlines()
         for line in Lines:
-            name, arrival_time, burst_time, priority = line.split('\t')
-            processes.append(Process(name, int(arrival_time), int(burst_time), priority=int(priority)))
+            name, arrival_time, burst_time = line.split('\t')
+            processes.append(Process(name, int(arrival_time), int(burst_time)))
+
+    table, gantt_chart = fcfs(processes)
+
+    # with open('inputs/priority.txt') as f:
+    #     Lines = f.readlines()
+    #     for line in Lines:
+    #         name, arrival_time, burst_time, priority = line.split('\t')
+    #         processes.append(Process(name, int(arrival_time), int(burst_time), priority=int(priority)))
     
-    table, gantt_chart = priority_queue_p(processes)
+    # table, gantt_chart = priority_queue_p(processes)
 
     # with open('inputs/rr.txt') as f:
     #     Lines = f.readlines()
@@ -110,6 +111,6 @@ if __name__ == '__main__':
     #         name, arrival_time, burst_time = line.split('\t')
     #         processes.append(Process(name, int(arrival_time), int(burst_time)))
     #
-    # table = round_robin(processes)
+    # table, gantt_chart = round_robin(processes)
 
     app.run(debug=True)

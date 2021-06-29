@@ -23,7 +23,7 @@ class ShortestJobFirst:
         queue.append(process)
 
     def perform_np_shortest_job_first(self, processes):
-
+        self.gantt_chart = []
         self.processes = processes
         time = 0
         queue = []
@@ -69,6 +69,8 @@ class ShortestJobFirst:
             current_process.current_burst_time -= 1
 
         self.gantt_chart[-1].interval = time - self.gantt_chart[-1].start_time
+        self.gantt_chart.append(Process("", 0, 0, start_time= self.gantt_chart[-1].interval +self.gantt_chart[-1].start_time))
+
         self.table = Table(process_list)
 
 
@@ -146,5 +148,7 @@ class ShortestJobFirst:
             current_process.current_burst_time -= 1
 
         self.gantt_chart[-1].interval = time - self.gantt_chart[-1].start_time
+        self.gantt_chart.append(Process("", 0, 0, start_time= self.gantt_chart[-1].interval +self.gantt_chart[-1].start_time))
+
 
         self.table = PreemptiveTable(process_list)
