@@ -114,6 +114,7 @@ class PriorityQueue:
                 current_process.partial_waiting_time = current_process.start_time - current_process.arrival_time
                 current_process.waiting_time = current_process.waiting_queue_time + current_process.partial_waiting_time
                 current_process.turn_around_time = current_process.waiting_time + current_process.burst_time
+
                 process_list.append(current_process)
 
                 if len(queue) > 0:
@@ -148,4 +149,5 @@ class PriorityQueue:
             current_process.current_burst_time -= 1
 
         self.gantt_chart[-1].interval = time - self.gantt_chart[-1].start_time
+
         self.table = PreemptiveTable(process_list)
