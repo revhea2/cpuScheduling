@@ -20,10 +20,9 @@ class RoundRobin:
             if queue[i].start_time is not None:
                 queue[i].waiting_queue_time += 1
 
-    def perform_round_robin(self, processes, quantum_slice):
+    def perform_round_robin(self, processes, quantum_slice, time=0):
         self.gantt_chart = []
         self.processes = processes
-        time = 0
         queue = []
 
         slice_count = quantum_slice

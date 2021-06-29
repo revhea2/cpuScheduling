@@ -14,13 +14,12 @@ class FirstComeFirstServe:
                 return i
         return -1
 
-    def perform_np_first_come_first_serve(self, processes):
+    def perform_np_first_come_first_serve(self, processes, time = 0):
         #this array for the illustration of gantt
         self.gantt_chart = []
 
         self.processes = processes
         # sets the time and queue
-        time = 0
         queue = []
 
         # initializes current process

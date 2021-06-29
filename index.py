@@ -3,6 +3,7 @@ from schedulingAlgorithms.FirstComeFirstServe import FirstComeFirstServe
 from schedulingAlgorithms.RoundRobin import RoundRobin
 from schedulingAlgorithms.ShortestJobFirst import ShortestJobFirst
 from schedulingAlgorithms.PriorityQueue import PriorityQueue
+from schedulingAlgorithms.MultilevelQueue import MultilevelQueue
 
 from flask import Flask, render_template
 
@@ -11,7 +12,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('index.html', table=table, gantt_chart=gantt_chart)
+    return render_template('index.html', table=table, gantt_chart=gantt_chart, is_multilevel=is_multilevel)
 
 
 def sjf_np(_processes):
@@ -85,24 +86,52 @@ def round_robin(_processes):
     return [rr.table, gantt_chart]
 
 
-if __name__ == '__main__':
-    processes = []
-    gantt_chart = []
-    #
+def multi_level_queue():
+    processes_1 = []
+    with open('inputs/rr.txt') as f:
+        Lines = f.readlines()
+        for line in Lines:
+            name, arrival_time, burst_time = line.split('\t')
+            processes_1.append(Process(name, int(arrival_time), int(burst_time)))
+
+    processes_2 = []
     with open('inputs/fcfs.txt') as f:
         Lines = f.readlines()
         for line in Lines:
             name, arrival_time, burst_time = line.split('\t')
-            processes.append(Process(name, int(arrival_time), int(burst_time)))
+            processes_2.append(Process(name, int(arrival_time), int(burst_time)))
 
-    table, gantt_chart = fcfs(processes)
+    processes_3 = []
+    with open('inputs/fcfs.txt') as f:
+        Lines = f.readlines()
+        for line in Lines:
+            name, arrival_time, burst_time = line.split('\t')
+            processes_3.append(Process(name, int(arrival_time), int(burst_time)))
+
+    mlq = MultilevelQueue()
+    mlq.perform_multilevel_queue(processes_1, processes_2, processes_3)
+
+    return [mlq.tables, mlq.gantt_chart_levels, True]
+
+
+if __name__ == '__main__':
+    processes = []
+    gantt_chart = []
+    #
+    # with open('inputs/fcfs.txt') as f:
+    #     Lines = f.readlines()
+    #     for line in Lines:
+    #         name, arrival_time, burst_time = line.split('\t')
+    #         processes.append(Process(name, int(arrival_time), int(burst_time)))
+    #
+    # table, gantt_chart = fcfs(processes)
 
     # with open('inputs/priority.txt') as f:
     #     Lines = f.readlines()
     #     for line in Lines:
     #         name, arrival_time, burst_time, priority = line.split('\t')
     #         processes.append(Process(name, int(arrival_time), int(burst_time), priority=int(priority)))
-    
+
     # table, gantt_chart = priority_queue_p(processes)
 
     # with open('inputs/rr.txt') as f:
@@ -112,5 +141,8 @@ if __name__ == '__main__':
     #         processes.append(Process(name, int(arrival_time), int(burst_time)))
     #
     # table, gantt_chart = round_robin(processes)
+    #
+
+    tables, gantt_charts, is_multilevel = multi_level_queue()
 
     app.run(debug=True)
