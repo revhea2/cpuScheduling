@@ -17,6 +17,9 @@ def index():
 def sjf_np(_processes):
     sjf_ = ShortestJobFirst()
     sjf_.perform_np_shortest_job_first(_processes)
+
+    gantt_chart = sjf_.gantt_chart
+
     print(sjf_.table)
     return sjf_.table
 
@@ -25,6 +28,7 @@ def sjf_p(_processes):
     sjf_ = ShortestJobFirst()
     sjf_.perform_p_shortest_job_first(_processes)
     print(sjf_.table)
+    gantt_chart = sjf_.gantt_chart
 
     for process in sjf_.gantt_chart:
         print(process.name)
@@ -36,6 +40,9 @@ def fcfs(_processes):
     fcfs_ = FirstComeFirstServe()
     fcfs_.perform_np_first_come_first_serve(_processes)
     print(fcfs_.table)
+
+    gantt_chart = fcfs_.gantt_chart
+
     return fcfs_.table
 
 
@@ -43,6 +50,8 @@ def priority_queue_np(_processes):
     pq = PriorityQueue()
     pq.perform_np_priority_queue(_processes)
     print(pq.table)
+
+    gantt_chart = pq.gantt_chart
     return pq.table
 
 
@@ -50,6 +59,8 @@ def priority_queue_p(_processes):
     pq = PriorityQueue()
     pq.perform_p_priority_queue(_processes)
     print(pq.table)
+
+    gantt_chart = pq.gantt_chart
     return pq.table
 
 
@@ -86,7 +97,8 @@ if __name__ == '__main__':
         for line in Lines:
             name, arrival_time, burst_time = line.split('\t')
             processes.append(Process(name, int(arrival_time), int(burst_time)))
-
+    gantt_chart = []
     table = round_robin(processes)
+
 
     app.run(debug=True)
