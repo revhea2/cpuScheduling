@@ -25,6 +25,10 @@ def sjf_p(_processes):
     sjf_ = ShortestJobFirst()
     sjf_.perform_p_shortest_job_first(_processes)
     print(sjf_.table)
+
+    for process in sjf_.gantt_chart:
+        print(process.name)
+
     return sjf_.table
 
 
@@ -53,19 +57,21 @@ def round_robin(_processes):
     rr = RoundRobin()
     rr.perform_round_robin(_processes, 8)
     print(rr.table)
+    for process in rr.gantt_chart:
+        print(process.name)
     return rr.table
 
 
 if __name__ == '__main__':
     processes = []
+    # #
+    # with open('inputs/fcfs.txt') as f:
+    #     Lines = f.readlines()
+    #     for line in Lines:
+    #         name, arrival_time, burst_time = line.split('\t')
+    #         processes.append(Process(name, int(arrival_time), int(burst_time)))
     #
-    with open('inputs/fcfs.txt') as f:
-        Lines = f.readlines()
-        for line in Lines:
-            name, arrival_time, burst_time = line.split('\t')
-            processes.append(Process(name, int(arrival_time), int(burst_time)))
-
-    table = fcfs(processes)
+    # table = sjf_p(processes)
 
     # with open('inputs/priority.txt') as f:
     #     Lines = f.readlines()
@@ -75,12 +81,12 @@ if __name__ == '__main__':
     #
     # priority_queue(processes)
 
-    # with open('inputs/rr.txt') as f:
-    #     Lines = f.readlines()
-    #     for line in Lines:
-    #         name, arrival_time, burst_time = line.split('\t')
-    #         processes.append(Process(name, int(arrival_time), int(burst_time)))
-    #
-    # table = round_robin(processes)
+    with open('inputs/rr.txt') as f:
+        Lines = f.readlines()
+        for line in Lines:
+            name, arrival_time, burst_time = line.split('\t')
+            processes.append(Process(name, int(arrival_time), int(burst_time)))
+
+    table = round_robin(processes)
 
     app.run(debug=True)

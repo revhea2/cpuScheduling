@@ -6,6 +6,7 @@ class ShortestJobFirst:
     def __init__(self):
         self.processes = []
         self.table = None
+        self.gantt_chart = []
 
     def has_arriving_process(self, time):
         for i in range(len(self.processes)):
@@ -43,6 +44,7 @@ class ShortestJobFirst:
             if current_process is None:
                 current_process = queue.pop(0)
                 current_process.start_time = time
+                self.gantt_chart.append(current_process)
 
             if current_process.current_burst_time == 0:
                 current_process.completion_time = time
@@ -53,10 +55,12 @@ class ShortestJobFirst:
                 if len(queue) > 0:
                     current_process = queue.pop(0)
                     current_process.start_time = time
+
+                    self.gantt_chart.append(current_process)
                 else:
                     current_process = None
 
-            if current_process is None and len(queue) == 0 and len(self.processes) == 0:
+            if current_process is None:
                 break
 
             time += 1
@@ -68,6 +72,7 @@ class ShortestJobFirst:
         for i in range(len(queue)):
             if queue[i].start_time is not None:
                 queue[i].waiting_queue_time += 1
+
 
     def perform_p_shortest_job_first(self, processes):
 
@@ -93,6 +98,8 @@ class ShortestJobFirst:
                 current_process = queue.pop(0)
                 current_process.start_time = time
 
+                self.gantt_chart.append(current_process)
+
             if current_process.current_burst_time == 0:
                 current_process.completion_time = time
                 current_process.partial_waiting_time = current_process.start_time - current_process.arrival_time
@@ -104,17 +111,22 @@ class ShortestJobFirst:
                     current_process = queue.pop(0)
                     if current_process.start_time is None:
                         current_process.start_time = time
+                    self.gantt_chart.append(current_process)
                 else:
                     current_process = None
 
             else:
                 if len(queue) > 0:
                     if queue[0].current_burst_time < current_process.current_burst_time:
+
                         # swap if the remaining time in the queue is lesser
                         queue[0], current_process = current_process, queue[0]
                         current_process.start_time = time
 
-            if current_process is None and len(queue) == 0 and len(self.processes) == 0:
+                        # for the gantt chart visual
+                        self.gantt_chart.append(current_process)
+
+            if current_process is None:
                 break
 
             self.add_waiting_queue_time(queue)

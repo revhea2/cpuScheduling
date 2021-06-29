@@ -15,6 +15,7 @@ class FirstComeFirstServe:
         return -1
 
     def perform_np_first_come_first_serve(self, processes):
+        self.gantt_chart = []
         self.processes = processes
         time = 0
         queue = []
@@ -37,6 +38,8 @@ class FirstComeFirstServe:
                 current_process = queue.pop(0)
                 current_process.start_time = time
 
+                self.gantt_chart.append(current_process)
+
             if current_process.current_burst_time == 0:
                 current_process.completion_time = time
                 current_process.waiting_time = current_process.start_time - current_process.arrival_time
@@ -46,14 +49,15 @@ class FirstComeFirstServe:
                 if len(queue) > 0:
                     current_process = queue.pop(0)
                     current_process.start_time = time
+
+                    self.gantt_chart.append(current_process)
                 else:
                     current_process = None
 
-            if current_process is None and len(queue) == 0 and len(self.processes) == 0:
+            if current_process is None:
                 break
 
             time += 1
             current_process.current_burst_time -= 1
 
         self.table = Table(process_list)
-

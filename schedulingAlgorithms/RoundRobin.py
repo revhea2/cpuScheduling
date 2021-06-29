@@ -6,6 +6,7 @@ class RoundRobin:
     def __init__(self):
         self.processes = []
         self.table = None
+        self.gantt_chart = []
 
     def has_arriving_process(self, time):
         for i in range(len(self.processes)):
@@ -20,6 +21,7 @@ class RoundRobin:
                 queue[i].waiting_queue_time += 1
 
     def perform_round_robin(self, processes, quantum_slice):
+        self.gantt_chart = []
         self.processes = processes
         time = 0
         queue = []
@@ -43,6 +45,7 @@ class RoundRobin:
             if current_process is None:
                 current_process = queue.pop(0)
                 current_process.start_time = time
+                self.gantt_chart.append(current_process)
 
             if current_process.current_burst_time == 0:
                 current_process.completion_time = time
@@ -55,6 +58,8 @@ class RoundRobin:
                     current_process = queue.pop(0)
                     if current_process.start_time is None:
                         current_process.start_time = time
+                        self.gantt_chart.append(current_process)
+
                     slice_count = quantum_slice
                 else:
                     current_process = None
@@ -68,9 +73,10 @@ class RoundRobin:
                         current_process = temp
                         if current_process.start_time is None:
                             current_process.start_time = time
+                        self.gantt_chart.append(current_process)
                         slice_count = quantum_slice
 
-            if current_process is None and len(queue) and len(self.processes):
+            if current_process is None:
                 break
 
             self.add_waiting_queue_time(queue)
@@ -79,3 +85,5 @@ class RoundRobin:
             slice_count -= 1
 
         self.table = PreemptiveTable(process_list)
+
+
