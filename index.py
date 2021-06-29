@@ -5,6 +5,7 @@ from schedulingAlgorithms.ShortestJobFirst import ShortestJobFirst
 from schedulingAlgorithms.PriorityQueue import PriorityQueue
 from schedulingAlgorithms.MultilevelQueue import MultilevelQueue
 
+import random
 from flask import Flask, render_template
 
 app = Flask(__name__)
@@ -12,7 +13,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('index.html', table=table, gantt_chart=gantt_chart, is_multilevel=is_multilevel)
+    return render_template('index.html', table=table, gantt_chart=gantt_chart)
 
 
 def sjf_np(_processes):
@@ -88,30 +89,24 @@ def round_robin(_processes):
 
 def multi_level_queue():
     processes_1 = []
-    with open('inputs/rr.txt') as f:
+    with open('inputs/multilevel_queue/rr_15.txt') as f:
         Lines = f.readlines()
         for line in Lines:
             name, arrival_time, burst_time = line.split('\t')
             processes_1.append(Process(name, int(arrival_time), int(burst_time)))
 
     processes_2 = []
-    with open('inputs/fcfs.txt') as f:
+    with open('inputs/multilevel_queue/sjf_15.txt') as f:
         Lines = f.readlines()
         for line in Lines:
             name, arrival_time, burst_time = line.split('\t')
             processes_2.append(Process(name, int(arrival_time), int(burst_time)))
 
-    processes_3 = []
-    with open('inputs/fcfs.txt') as f:
-        Lines = f.readlines()
-        for line in Lines:
-            name, arrival_time, burst_time = line.split('\t')
-            processes_3.append(Process(name, int(arrival_time), int(burst_time)))
 
     mlq = MultilevelQueue()
-    mlq.perform_multilevel_queue(processes_1, processes_2, processes_3)
+    mlq.perform_multilevel_queue(processes_1, processes_2)
 
-    return [mlq.tables, mlq.gantt_chart_levels, True]
+    return [mlq.table, mlq.gantt_chart]
 
 
 if __name__ == '__main__':
@@ -123,6 +118,7 @@ if __name__ == '__main__':
     #     for line in Lines:
     #         name, arrival_time, burst_time = line.split('\t')
     #         processes.append(Process(name, int(arrival_time), int(burst_time)))
+    # random.shuffle(processes)
     #
     # table, gantt_chart = fcfs(processes)
 
@@ -134,15 +130,15 @@ if __name__ == '__main__':
 
     # table, gantt_chart = priority_queue_p(processes)
 
-    # with open('inputs/rr.txt') as f:
-    #     Lines = f.readlines()
-    #     for line in Lines:
-    #         name, arrival_time, burst_time = line.split('\t')
-    #         processes.append(Process(name, int(arrival_time), int(burst_time)))
-    #
-    # table, gantt_chart = round_robin(processes)
-    #
+    with open('inputs/multilevel_queue/rr_15.txt') as f:
+        Lines = f.readlines()
+        for line in Lines:
+            name, arrival_time, burst_time = line.split('\t')
+            processes.append(Process(name, int(arrival_time), int(burst_time)))
 
-    tables, gantt_charts, is_multilevel = multi_level_queue()
+    table, gantt_chart = round_robin(processes)
+
+
+    table, gantt_chart = multi_level_queue()
 
     app.run(debug=True)

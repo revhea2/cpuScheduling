@@ -22,13 +22,15 @@ class ShortestJobFirst:
                 return
         queue.append(process)
 
-    def perform_np_shortest_job_first(self, processes, time=0):
+    def perform_np_shortest_job_first(self, processes):
         self.gantt_chart = []
         self.processes = processes
         queue = []
 
         current_process = None
         process_list = []
+        time = 0
+
         while True:
             n = self.has_arriving_process(time)
 
