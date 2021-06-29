@@ -1,5 +1,7 @@
 from model.PreemptiveTable import PreemptiveTable
 from model.Table import Table
+from model.Process import Process
+
 
 
 class PriorityQueue:
@@ -58,7 +60,10 @@ class PriorityQueue:
                     current_process = queue.pop(0)
                     current_process.start_time = time
 
-                    self.gantt_chart.append(current_process)
+                    gantt_process = Process(current_process.name, current_process.arrival_time,
+                                            current_process.burst_time)
+                    gantt_process.start_time = time
+                    self.gantt_chart.append(gantt_process)
                 else:
                     current_process = None
 
@@ -111,10 +116,13 @@ class PriorityQueue:
 
                 if len(queue) > 0:
                     current_process = queue.pop(0)
+
+                    gantt_process = Process(current_process.name, current_process.arrival_time, current_process.burst_time )
+                    gantt_process.start_time = time
+                    self.gantt_chart.append(gantt_process)
+
                     if current_process.start_time is None:
                         current_process.start_time = time
-
-                        self.gantt_chart.append(current_process)
                 else:
                     current_process = None
 

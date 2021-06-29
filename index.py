@@ -11,7 +11,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('index.html', table=table)
+    return render_template('index.html', table=table, gantt_chart = gantt_chart)
 
 
 def sjf_np(_processes):
@@ -21,6 +21,8 @@ def sjf_np(_processes):
     gantt_chart = sjf_.gantt_chart
 
     print(sjf_.table)
+    for process in sjf_.gantt_chart:
+        print(process.name)
     return sjf_.table
 
 
@@ -75,14 +77,15 @@ def round_robin(_processes):
 
 if __name__ == '__main__':
     processes = []
-    # #
-    # with open('inputs/fcfs.txt') as f:
-    #     Lines = f.readlines()
-    #     for line in Lines:
-    #         name, arrival_time, burst_time = line.split('\t')
-    #         processes.append(Process(name, int(arrival_time), int(burst_time)))
+    gantt_chart = []
     #
-    # table = sjf_p(processes)
+    with open('inputs/fcfs.txt') as f:
+        Lines = f.readlines()
+        for line in Lines:
+            name, arrival_time, burst_time = line.split('\t')
+            processes.append(Process(name, int(arrival_time), int(burst_time)))
+
+    table = sjf_p(processes)
 
     # with open('inputs/priority.txt') as f:
     #     Lines = f.readlines()
@@ -90,15 +93,14 @@ if __name__ == '__main__':
     #         name, arrival_time, burst_time, priority = line.split('\t')
     #         processes.append(Process(name, int(arrival_time), int(burst_time), priority=int(priority)))
     #
-    # priority_queue(processes)
+    # table = priority_queue_p(processes)
 
-    with open('inputs/rr.txt') as f:
-        Lines = f.readlines()
-        for line in Lines:
-            name, arrival_time, burst_time = line.split('\t')
-            processes.append(Process(name, int(arrival_time), int(burst_time)))
-    gantt_chart = []
-    table = round_robin(processes)
-
+    # with open('inputs/rr.txt') as f:
+    #     Lines = f.readlines()
+    #     for line in Lines:
+    #         name, arrival_time, burst_time = line.split('\t')
+    #         processes.append(Process(name, int(arrival_time), int(burst_time)))
+    #
+    # table = round_robin(processes)
 
     app.run(debug=True)
