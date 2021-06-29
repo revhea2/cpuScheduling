@@ -1,4 +1,4 @@
-class PTable:
+class Table:
 
     def __init__(self, processes):
         self.processes = processes

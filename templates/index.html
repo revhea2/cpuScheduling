@@ -1,0 +1,25 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+<div class="container" style="position:relative;">
+    <p>Gantt Chart</p>
+    {% for process in table.processes %}
+        <p>{{ process.burst_time }}</p>
+        <div style="position:absolute; width:calc(20*{{ process.burst_time }}); left:{{ process.start_time }}; height:20px; background-color:red;">
+
+        </div>
+    {% endfor %}
+</div>
+
+<textarea cols="100" rows="20">{{table}}</textarea>
+
+
+</body>
+</html>

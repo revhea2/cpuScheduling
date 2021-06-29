@@ -1,5 +1,4 @@
-from model.non_preemptive.NpProcess import NpProcess
-from model.non_preemptive.NpTable import NpTable
+from model.Table import Table
 
 
 class FirstComeFirstServe:
@@ -7,6 +6,7 @@ class FirstComeFirstServe:
     def __init__(self):
         self.processes = []
         self.table = None
+        self.gantt_chart = []
 
     def has_arriving_process(self, time):
         for i in range(len(self.processes)):
@@ -14,7 +14,7 @@ class FirstComeFirstServe:
                 return i
         return -1
 
-    def perform_first_come_first_serve(self, processes):
+    def perform_np_first_come_first_serve(self, processes):
         self.processes = processes
         time = 0
         queue = []
@@ -28,7 +28,7 @@ class FirstComeFirstServe:
             while n >= 0:
                 process = self.processes.pop(n)
 
-                process = NpProcess(process.name, time, process.burst_time, current_burst_time=process.burst_time)
+                process.current_burst_time = process.burst_time
                 queue.append(process)
 
                 n = self.has_arriving_process(time)
@@ -55,6 +55,5 @@ class FirstComeFirstServe:
             time += 1
             current_process.current_burst_time -= 1
 
+        self.table = Table(process_list)
 
-
-        self.table = NpTable(process_list)
