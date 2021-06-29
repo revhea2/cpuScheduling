@@ -14,3 +14,6 @@ class Process:
         self.partial_waiting_time = partial_waiting_time
         self.waiting_queue_time = waiting_queue_time
         self.interval = interval
+    
+    def __repr__(self):
+        return f"{self.name}: {self.burst_time}"
