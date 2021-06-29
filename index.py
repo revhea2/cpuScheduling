@@ -23,7 +23,7 @@ def sjf_np(_processes):
     print(sjf_.table)
     for process in sjf_.gantt_chart:
         print(process.name, process.start_time, process.interval)
-    return sjf_.table
+    return [sjf_.table, gantt_chart]
 
 
 def sjf_p(_processes):
@@ -35,7 +35,7 @@ def sjf_p(_processes):
     for process in sjf_.gantt_chart:
         print(process.name, process.start_time, process.interval)
 
-    return sjf_.table
+    return [sjf_.table, gantt_chart]
 
 
 def fcfs(_processes):
@@ -48,7 +48,7 @@ def fcfs(_processes):
 
     gantt_chart = fcfs_.gantt_chart
 
-    return fcfs_.table
+    return [fcfs_.table, gantt_chart]
 
 
 def priority_queue_np(_processes):
@@ -60,7 +60,7 @@ def priority_queue_np(_processes):
         print(process.name, process.start_time, process.interval)
 
     gantt_chart = pq.gantt_chart
-    return pq.table
+    return [pq.table, gantt_chart]
 
 
 def priority_queue_p(_processes):
@@ -72,7 +72,7 @@ def priority_queue_p(_processes):
         print(process.name, process.start_time, process.interval)
 
     gantt_chart = pq.gantt_chart
-    return pq.table
+    return [pq.table, gantt_chart]
 
 
 def round_robin(_processes):
@@ -88,21 +88,21 @@ if __name__ == '__main__':
     processes = []
     gantt_chart = []
     #
-    with open('inputs/fcfs.txt') as f:
-        Lines = f.readlines()
-        for line in Lines:
-            name, arrival_time, burst_time = line.split('\t')
-            processes.append(Process(name, int(arrival_time), int(burst_time)))
-
-    table = fcfs(processes)
-
-    # with open('inputs/priority.txt') as f:
+    # with open('inputs/fcfs.txt') as f:
     #     Lines = f.readlines()
     #     for line in Lines:
-    #         name, arrival_time, burst_time, priority = line.split('\t')
-    #         processes.append(Process(name, int(arrival_time), int(burst_time), priority=int(priority)))
-    #
-    # table = priority_queue_np(processes)
+    #         name, arrival_time, burst_time = line.split('\t')
+    #         processes.append(Process(name, int(arrival_time), int(burst_time)))
+
+    # table, gantt_chart = sjf_p(processes)
+
+    with open('inputs/priority.txt') as f:
+        Lines = f.readlines()
+        for line in Lines:
+            name, arrival_time, burst_time, priority = line.split('\t')
+            processes.append(Process(name, int(arrival_time), int(burst_time), priority=int(priority)))
+    
+    table, gantt_chart = priority_queue_p(processes)
 
     # with open('inputs/rr.txt') as f:
     #     Lines = f.readlines()
