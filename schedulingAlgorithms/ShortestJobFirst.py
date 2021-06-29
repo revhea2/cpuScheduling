@@ -69,6 +69,8 @@ class ShortestJobFirst:
 
         self.table = Table(process_list)
 
+
+
     def add_waiting_queue_time(self, queue):
         for i in range(len(queue)):
             if queue[i].start_time is not None:
@@ -109,9 +111,10 @@ class ShortestJobFirst:
                 process_list.append(current_process)
 
                 if len(queue) > 0:
+                    self.gantt_chart[-1].interval = time - self.gantt_chart[-1].start_time
                     current_process = queue.pop(0)
 
-                    gantt_process = Process(current_process.name, current_process.arrival_time, current_process.burst_time )
+                    gantt_process = Process(current_process.name, current_process.arrival_time, current_process.burst_time)
                     gantt_process.start_time = time
                     self.gantt_chart.append(gantt_process)
 
@@ -124,6 +127,7 @@ class ShortestJobFirst:
             else:
                 if len(queue) > 0:
                     if queue[0].current_burst_time < current_process.current_burst_time:
+                        self.gantt_chart[-1].interval = time - self.gantt_chart[-1].start_time
 
                         # swap if the remaining time in the queue is lesser
                         queue[0], current_process = current_process, queue[0]
@@ -138,5 +142,7 @@ class ShortestJobFirst:
             self.add_waiting_queue_time(queue)
             time += 1
             current_process.current_burst_time -= 1
+
+        self.gantt_chart[-1].interval = time - self.gantt_chart[-1].start_time
 
         self.table = PreemptiveTable(process_list)

@@ -22,7 +22,7 @@ def sjf_np(_processes):
 
     print(sjf_.table)
     for process in sjf_.gantt_chart:
-        print(process.name)
+        print(process.name, process.start_time, process.current_burst_time)
     return sjf_.table
 
 
@@ -33,7 +33,7 @@ def sjf_p(_processes):
     gantt_chart = sjf_.gantt_chart
 
     for process in sjf_.gantt_chart:
-        print(process.name)
+        print(process.name, process.start_time, process.interval)
 
     return sjf_.table
 
