@@ -1,25 +1,46 @@
 <html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-
-<div class="container" style="position:relative;">
-    <p>Gantt Chart</p>
-    {% for process in table.processes %}
-        <p>{{ process.burst_time }}</p>
-        <div style="position:absolute; width:calc(20*{{ process.burst_time }}); left:{{ process.start_time }}; height:20px; background-color:red;">
-
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+        />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Document</title>
+        <style>
+        * {
+            box-sizing: border-box;
+        }
+        </style>
+    </head>
+    <body>
+        <div
+            class="container"
+            style="position: relative; height: 100px; background-color: red"
+        >
+            <p>Gantt Chart</p>
+            {% for process in table.processes %}
+            <div
+                style="
+                    border-left: 1px dashed black;
+                    position: absolute;
+                    height: 20px;
+                    z-index: 1;
+                    text-align: center;
+                    width: 1px;
+                    left: calc(10px * {{ process.arrival_time }});
+                "
+            >
+                <p style="font-size: 12; margin-top: 20px;">{{ process.name }}</p>
+            </div>
+            <div
+                style="border: 1px solid black; border-left: 0; position:absolute; z-index:0; width:calc(10px*{{ process.burst_time }}); left:calc(10px*{{ process.start_time }}); height:20px; background-color:blue;"
+            >
+                <span style="">{{ process.name }}</span>
+            </div>
+            {% endfor %}
         </div>
-    {% endfor %}
-</div>
 
-<textarea cols="100" rows="20">{{table}}</textarea>
-
-
-</body>
+        <textarea cols="100" rows="20">{{table}}</textarea>
+    </body>
 </html>
