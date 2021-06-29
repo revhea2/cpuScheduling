@@ -31,7 +31,7 @@ class MultilevelQueue:
 
             n = self.has_arriving_process(time, processes)
 
-    def perform_multilevel_queue(self, processes_1, processes_2, processes_3):
+    def perform_multilevel_queue(self, processes_1, processes_2):
 
         self.gantt_chart = []
         queue = [
@@ -112,7 +112,9 @@ class MultilevelQueue:
                 if current_process is None and len(processes_1) == 0:
                     self.gantt_chart[-1].interval = time - self.gantt_chart[-1].start_time
                     level = 1
-                    continue
+                    self.table = PreemptiveTable(process_list)
+                    print(time)
+                    break
 
                 self.add_waiting_queue_time(queue[0])
                 time += 1
@@ -165,7 +167,7 @@ class MultilevelQueue:
         self.gantt_chart[-1].interval = time - self.gantt_chart[-1].start_time
         self.gantt_chart.append(Process("", 0, 0, start_time= self.gantt_chart[-1].interval +self.gantt_chart[-1].start_time))
 
-        self.table = PreemptiveTable(process_list)
+
 
     def add_time_process(self, processes, additional_time):
         for i in range(processes):
