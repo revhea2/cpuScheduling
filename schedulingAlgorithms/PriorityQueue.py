@@ -56,7 +56,7 @@ class PriorityQueue:
                 else:
                     current_process = None
 
-            if current_process is None:
+            if current_process is None and len(queue) == 0 and len(self.processes) == 0:
                 break
 
             time += 1
@@ -114,7 +114,7 @@ class PriorityQueue:
                         queue[0], current_process = current_process, queue[0]
                         current_process.start_time = time
 
-            if current_process is None:
+            if current_process is None and len(queue) == 0 and len(self.processes) == 0:
                 break
 
             self.add_waiting_queue_time(queue)

@@ -49,7 +49,7 @@ class FirstComeFirstServe:
                 else:
                     current_process = None
 
-            if current_process is None:
+            if current_process is None and len(queue) == 0 and len(self.processes) == 0:
                 break
 
             time += 1

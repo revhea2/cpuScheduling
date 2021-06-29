@@ -70,7 +70,7 @@ class RoundRobin:
                             current_process.start_time = time
                         slice_count = quantum_slice
 
-            if current_process is None:
+            if current_process is None and len(queue) and len(self.processes):
                 break
 
             self.add_waiting_queue_time(queue)

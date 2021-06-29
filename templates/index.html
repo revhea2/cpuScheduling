@@ -11,10 +11,9 @@
 <div class="container" style="position:relative;">
     <p>Gantt Chart</p>
     {% for process in table.processes %}
-        <p>{{ process.burst_time }}</p>
+        <p>{{ process.burst_time }}</p> 
         <div style="position:absolute; width:calc(20*{{ process.burst_time }}); left:{{ process.start_time }}; height:20px; background-color:red;">
 
-        </div>
     {% endfor %}
 </div>
 
