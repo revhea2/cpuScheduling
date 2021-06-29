@@ -14,53 +14,48 @@
         </style>
     </head>
     <body>
-        <div style="display: flex">
-            <div style="width: 30px; padding-top: 74px">
-                <p style="font-size: 12">AT:<br />ST:</p>
-            </div>
-            <div class="container" style="position: relative; height: 100px">
-                <p>Gantt Chart</p>
-                {% for process in gantt_chart %}
-                <div
-                    style="
-                        border-left: 1px dashed black;
+        <div class="container" style="position: relative; height: 100px">
+            <p>Gantt Chart</p>
+            {% for process in gantt_chart %}
+            <div
+                style="
+                        border-left: 2px dashed black;
                         position: absolute;
                         height: 20px;
                         z-index: 1;
                         text-align: center;
                         width: 1px;
+                        margin-right: 10px;
                         left: calc(15px * {{ process.arrival_time }});
                     "
-                >
-                    <p style="font-size: 12; margin-top: 20px">
-                        {{ process.name }}
-                    </p>
-                    <p style="font-size: 12; margin-top: 15px">
-                        {{ process.arrival_time }}
-                    </p>
-                </div>
-                <div
-                    style="
-                        border-left: 1px dashed black;
+            >
+                <p style="font-size: 12; margin-top: 20px">
+                    {{ process.name }}
+                </p>
+                <p style="font-size: 12; margin-top: 15px">
+                    {{ process.arrival_time }}
+                </p>
+            </div>
+            <div
+                style="
                         position: absolute;
                         height: 20px;
                         z-index: 1;
                         text-align: center;
                         width: 1px;
-                        left:calc(15px*{{ process.start_time }}
+                        left:calc(15px*{{ process.start_time }})
                     "
-                >
-                    <p style="font-size: 12; margin-top: 35px">
-                        {{ process.start_time }}
-                    </p>
-                </div>
-                <div
-                    style="border: 1px solid black;text-align: center; border-left: 0; position:absolute; z-index:0; width:calc(15px*{{ process.interval }}); left:calc(15px*{{ process.start_time }}); height:20px; background-color:blue;"
-                >
-                    <span style="color: white">{{ process.name }}</span>
-                </div>
-                {% endfor %}
+            >
+                <p style="font-size: 12; margin-top: 35px">
+                    {{ process.start_time }}
+                </p>
             </div>
+            <div
+                style="border: 1px solid black;text-align: center; border-left: 0; position:absolute; z-index:0; width:calc(15px*{{ process.interval }}); left:calc(15px*{{ process.start_time }}); height:20px; background-color:blue;"
+            >
+                <span style="color: white">{{ process.name }}</span>
+            </div>
+            {% endfor %}
         </div>
 
         <textarea cols="100" rows="20">{{table}}</textarea>
