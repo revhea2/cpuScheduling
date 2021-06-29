@@ -69,7 +69,7 @@ def priority_queue_p(_processes):
     print(pq.table)
 
     for process in pq.gantt_chart:
-        print(process.name, process.start_time, process.interval)
+        print(process.name, process.arrival_time, process.start_time, process.interval)
 
     gantt_chart = pq.gantt_chart
     return pq.table
@@ -88,21 +88,21 @@ if __name__ == '__main__':
     processes = []
     gantt_chart = []
     #
-    with open('inputs/fcfs.txt') as f:
-        Lines = f.readlines()
-        for line in Lines:
-            name, arrival_time, burst_time = line.split('\t')
-            processes.append(Process(name, int(arrival_time), int(burst_time)))
-
-    table = fcfs(processes)
-
-    # with open('inputs/priority.txt') as f:
+    # with open('inputs/fcfs.txt') as f:
     #     Lines = f.readlines()
     #     for line in Lines:
-    #         name, arrival_time, burst_time, priority = line.split('\t')
-    #         processes.append(Process(name, int(arrival_time), int(burst_time), priority=int(priority)))
+    #         name, arrival_time, burst_time = line.split('\t')
+    #         processes.append(Process(name, int(arrival_time), int(burst_time)))
     #
-    # table = priority_queue_np(processes)
+    # table = fcfs(processes)
+
+    with open('inputs/priority.txt') as f:
+        Lines = f.readlines()
+        for line in Lines:
+            name, arrival_time, burst_time, priority = line.split('\t')
+            processes.append(Process(name, int(arrival_time), int(burst_time), priority=int(priority)))
+
+    table = priority_queue_p(processes)
 
     # with open('inputs/rr.txt') as f:
     #     Lines = f.readlines()
