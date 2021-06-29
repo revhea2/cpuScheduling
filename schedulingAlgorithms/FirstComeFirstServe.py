@@ -14,16 +14,20 @@ class FirstComeFirstServe:
                 return i
         return -1
 
-    def perform_np_first_come_first_serve(self, processes, time = 0):
+    def perform_np_first_come_first_serve(self, processes):
         #this array for the illustration of gantt
         self.gantt_chart = []
 
         self.processes = processes
         # sets the time and queue
+        time = 0
         queue = []
 
         # initializes current process
+        # current process is the process being executed
         current_process = None
+
+        # initializes the storage for the processes tabulation illustration of RR algorithm
         process_list = []
 
         # start of fcfs
@@ -52,6 +56,7 @@ class FirstComeFirstServe:
                 self.gantt_chart.append(current_process)
 
             # check if the process has terminated
+            # current burst time is the remaining time left for the process before its completion
             if current_process.current_burst_time == 0:
 
                 # for the tabulation of the processes in FCFS algorithm -- >
