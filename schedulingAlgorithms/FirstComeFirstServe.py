@@ -47,6 +47,7 @@ class FirstComeFirstServe:
                 process_list.append(current_process)
 
                 if len(queue) > 0:
+                    self.gantt_chart[-1].interval = time - self.gantt_chart[-1].start_time
                     current_process = queue.pop(0)
                     current_process.start_time = time
 
@@ -60,4 +61,5 @@ class FirstComeFirstServe:
             time += 1
             current_process.current_burst_time -= 1
 
+        self.gantt_chart[-1].interval = time - self.gantt_chart[-1].start_time
         self.table = Table(process_list)

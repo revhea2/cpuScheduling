@@ -11,7 +11,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('index.html', table=table, gantt_chart = gantt_chart)
+    return render_template('index.html', table=table, gantt_chart=gantt_chart)
 
 
 def sjf_np(_processes):
@@ -22,7 +22,7 @@ def sjf_np(_processes):
 
     print(sjf_.table)
     for process in sjf_.gantt_chart:
-        print(process.name, process.start_time, process.current_burst_time)
+        print(process.name, process.start_time, process.interval)
     return sjf_.table
 
 
@@ -43,6 +43,9 @@ def fcfs(_processes):
     fcfs_.perform_np_first_come_first_serve(_processes)
     print(fcfs_.table)
 
+    for process in fcfs_.gantt_chart:
+        print(process.name, process.start_time, process.interval)
+
     gantt_chart = fcfs_.gantt_chart
 
     return fcfs_.table
@@ -53,6 +56,9 @@ def priority_queue_np(_processes):
     pq.perform_np_priority_queue(_processes)
     print(pq.table)
 
+    for process in pq.gantt_chart:
+        print(process.name, process.start_time, process.interval)
+
     gantt_chart = pq.gantt_chart
     return pq.table
 
@@ -61,6 +67,9 @@ def priority_queue_p(_processes):
     pq = PriorityQueue()
     pq.perform_p_priority_queue(_processes)
     print(pq.table)
+
+    for process in pq.gantt_chart:
+        print(process.name, process.start_time, process.interval)
 
     gantt_chart = pq.gantt_chart
     return pq.table
@@ -85,7 +94,7 @@ if __name__ == '__main__':
             name, arrival_time, burst_time = line.split('\t')
             processes.append(Process(name, int(arrival_time), int(burst_time)))
 
-    table = sjf_p(processes)
+    table = fcfs(processes)
 
     # with open('inputs/priority.txt') as f:
     #     Lines = f.readlines()
@@ -93,7 +102,7 @@ if __name__ == '__main__':
     #         name, arrival_time, burst_time, priority = line.split('\t')
     #         processes.append(Process(name, int(arrival_time), int(burst_time), priority=int(priority)))
     #
-    # table = priority_queue_p(processes)
+    # table = priority_queue_np(processes)
 
     # with open('inputs/rr.txt') as f:
     #     Lines = f.readlines()

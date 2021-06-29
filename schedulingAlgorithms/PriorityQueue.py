@@ -3,7 +3,6 @@ from model.Table import Table
 from model.Process import Process
 
 
-
 class PriorityQueue:
 
     def __init__(self):
@@ -57,6 +56,8 @@ class PriorityQueue:
                 process_list.append(current_process)
 
                 if len(queue) > 0:
+                    self.gantt_chart[-1].interval = time - self.gantt_chart[-1].start_time
+
                     current_process = queue.pop(0)
                     current_process.start_time = time
 
@@ -73,6 +74,7 @@ class PriorityQueue:
             time += 1
             current_process.current_burst_time -= 1
 
+        self.gantt_chart[-1].interval = time - self.gantt_chart[-1].start_time
         self.table = Table(process_list)
 
     def add_waiting_queue_time(self, queue):
@@ -115,6 +117,8 @@ class PriorityQueue:
                 process_list.append(current_process)
 
                 if len(queue) > 0:
+                    self.gantt_chart[-1].interval = time - self.gantt_chart[-1].start_time
+
                     current_process = queue.pop(0)
 
                     gantt_process = Process(current_process.name, current_process.arrival_time, current_process.burst_time )
@@ -129,6 +133,7 @@ class PriorityQueue:
             else:
                 if len(queue) > 0:
                     if queue[0].priority < current_process.priority:
+                        self.gantt_chart[-1].interval = time - self.gantt_chart[-1].start_time
                         # swap if the priority in the poll is lesser
                         queue[0], current_process = current_process, queue[0]
                         current_process.start_time = time
@@ -142,4 +147,5 @@ class PriorityQueue:
             time += 1
             current_process.current_burst_time -= 1
 
+        self.gantt_chart[-1].interval = time - self.gantt_chart[-1].start_time
         self.table = PreemptiveTable(process_list)
